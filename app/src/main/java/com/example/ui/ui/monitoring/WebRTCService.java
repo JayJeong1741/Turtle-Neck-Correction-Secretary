@@ -40,7 +40,7 @@ public class WebRTCService extends Service {
     private PeerConnection peerConnection;
     private Socket mSocket;
     private static final String TAG = "WebRTC_SERVICE";
-    private static final String SOCKET_URL = "http://192.168.35.124:3000";
+    private static final String SOCKET_URL = "http://192.0.0.2:3000";
     private EglBase eglBase;
     private final IBinder binder = new LocalBinder();
     private VideoSink remoteVideoSink, currentRemoteVideoSink;
