@@ -3,18 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
-        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ui"
-        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
+
+        <!--
+        <activity
+            android:name=".splash"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Ui.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>SplashActivity를 첫 번째로 실행하도록 설정 -->
+
+        <!-- LoginActivity는 두 번째로 실행 -->
         <activity
             android:name=".ui.user.LoginActivity"
             android:exported="true"
@@ -31,14 +48,16 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Ui.NoActionBar" />
+
         <activity
             android:name=".ui.user.SignupActivity"
             android:exported="false"
             android:label="@string/signup" />
-        <service android:name=".ui.monitoring.WebRTCService"
+
+        <service
+            android:name=".ui.monitoring.WebRTCService"
             android:enabled="true"
-            android:exported="false"/>
-</application>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            android:exported="false" />
+    </application>
+
 </manifest>

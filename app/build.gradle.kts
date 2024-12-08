@@ -43,7 +43,6 @@ dependencies {
     implementation ("io.socket:socket.io-client:2.0.0") {
         exclude(group= "org.json", module= "json")
     }
-
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -52,6 +51,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
