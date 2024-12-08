@@ -33,7 +33,7 @@ import android.view.animation.DecelerateInterpolator;
 import com.example.ui.R;
 
 public class MonitoringFragment extends Fragment {
-    private TextView predict;
+    private TextView predict, percent;
     private SurfaceViewRenderer remoteVideoView;
     private WebRTCService webRTCService;
     private boolean isBound = false;
@@ -54,6 +54,7 @@ public class MonitoringFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_monitoring, container, false);
 
         predict = view.findViewById(R.id.predict);
+        percent = view.findViewById(R.id.percent);
 
 
         Log.d("remoteView Status in onCreateView","remoteView Status : " + remoteVideoView);
@@ -181,7 +182,9 @@ public class MonitoringFragment extends Fragment {
                                     animation.start();
 
                                     // TextView에 원본 값 그대로 표시
-                                    predict.setText("거북목 예측도: " + value);
+                                    predict.setText("거북목 예측도");
+                                    percent.setText(value + "%");
+
                                 } catch (NumberFormatException e) {
                                     Log.e("MonitoringFragment", "Error parsing message: " + message, e);
                                 }
