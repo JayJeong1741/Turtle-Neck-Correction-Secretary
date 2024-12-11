@@ -6,14 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Binder;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
 
-
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
@@ -40,11 +37,10 @@ public class WebRTCService extends Service {
     private PeerConnection peerConnection;
     private Socket mSocket;
     private static final String TAG = "WebRTC_SERVICE";
-    private static final String SOCKET_URL = "http://192.168.35.124:3000";
+    private static final String SOCKET_URL = "http://172.171.228.13:3000";
     private EglBase eglBase;
     private final IBinder binder = new LocalBinder();
     private VideoSink remoteVideoSink, currentRemoteVideoSink;
-    private DataChannel.Observer dataChannelObserver;
     private WebRTCMessageListener messageListener;
     // 클래스 필드에 Count 및 TARGET_COUNT 선언
     private int Count = 0; // 카운트를 저장하는 변수
@@ -105,13 +101,6 @@ public class WebRTCService extends Service {
         }
     }
 
-    public void createNewStream() {
-        MediaStream newStream = peerConnectionFactory.createLocalMediaStream("newStream");
-        // 필요한 트랙 추가
-        // newStream.addTrack(...);
-        peerConnection.addStream(newStream);
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -124,13 +113,11 @@ public class WebRTCService extends Service {
         initSocket();
 
         // Check and log notification permission status
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED) {
-                Log.w(TAG, "POST_NOTIFICATIONS permission not granted");
-                // Optionally, you could send a broadcast or callback to the activity
-                // to request permissions if needed
-            }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.w(TAG, "POST_NOTIFICATIONS permission not granted");
+            // Optionally, you could send a broadcast or callback to the activity
+            // to request permissions if needed
         }
     }
 
@@ -221,7 +208,6 @@ public class WebRTCService extends Service {
             @Override
             public void onDataChannel(DataChannel dataChannel) {
                 Log.d(TAG, "onDataChannel");
-                dataChannel.registerObserver(dataChannelObserver);
                 dataChannel.registerObserver(new DataChannel.Observer() {
                     @Override
                     public void onBufferedAmountChange(long previousAmount) {
@@ -262,9 +248,7 @@ public class WebRTCService extends Service {
                                 }
                                 if (messageListener != null) {
                                     // UI 스레드에서 콜백 실행
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        messageListener.onMessageReceived(text);
-                                    });
+                                    new Handler(Looper.getMainLooper()).post(() -> messageListener.onMessageReceived(text));
                                 }
                             }
                         } catch (Exception e) {
