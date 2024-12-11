@@ -63,7 +63,8 @@ public class MonitoringFragment extends Fragment {
         if (!isServiceRunning()) {
             // 서비스가 실행 중이 아니면 startService 호출
             Intent intent = new Intent(requireActivity(), WebRTCService.class);  // requireActivity() 사용
-            requireActivity().startService(intent); // startService 호출
+            ContextCompat.startForegroundService(requireContext(), intent);
+
         }
         setServiceConnection();
         requireActivity().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
