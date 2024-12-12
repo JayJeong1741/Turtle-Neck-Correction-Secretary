@@ -89,7 +89,6 @@ public class myinfoFragment extends Fragment {
     private void updateBarChart(Map<String, Integer> hourlyData) {
         List<BarEntry> entries = new ArrayList<>();
 
-
         // 시간 데이터 채우기 (0~23시)
         for (int hour = 0; hour < 24; hour++) {
             String hourKey = String.format(Locale.getDefault(), "%02d", hour); // 02, 03 같은 형식 보장
@@ -101,6 +100,7 @@ public class myinfoFragment extends Fragment {
         // 데이터 세트 생성
         BarDataSet dataSet = new BarDataSet(entries, "시간별 감지 횟수");
         dataSet.setColor(Color.BLUE);
+        dataSet.setValueTextSize(12f); // 데이터 값 텍스트 크기 설정
 
         // 데이터 설정
         BarData barData = new BarData(dataSet);
@@ -125,16 +125,19 @@ public class myinfoFragment extends Fragment {
                 return String.format(Locale.getDefault(), "%02d", (int) value); // 02, 03 등 형식
             }
         });
+        xAxis.setTextSize(10f); // X축 텍스트 크기 설정
 
         // Y축 설정
         YAxis leftAxis = todayBarChart.getAxisLeft();
         leftAxis.setAxisMinimum(0f); // 0부터 시작
         leftAxis.setGranularity(1f);
+        leftAxis.setTextSize(10f); // 왼쪽 Y축 텍스트 크기 설정
 
         todayBarChart.getAxisRight().setEnabled(false); // 오른쪽 Y축 비활성화
         todayBarChart.getDescription().setEnabled(false); // 설명 비활성화
         todayBarChart.invalidate(); // 차트 갱신
     }
+
     private void updateLineChart(Map<String, Integer> dailyData) {
         Map<String, Integer> fullData = fillMissingDates(dailyData);
 
@@ -152,6 +155,7 @@ public class myinfoFragment extends Fragment {
         dataSet.setCircleColor(Color.rgb(255, 165, 0));
         dataSet.setLineWidth(2f);
         dataSet.setCircleRadius(3f);
+        dataSet.setValueTextSize(12f); // 데이터 값 텍스트 크기 설정
 
         LineData lineData = new LineData(dataSet);
         lineData.setValueFormatter(new ValueFormatter() {
@@ -169,17 +173,20 @@ public class myinfoFragment extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
+        xAxis.setTextSize(12f); // X축 텍스트 크기 설정
 
         // Y축 설정
         YAxis leftAxis = weeklyLineChart.getAxisLeft();
         leftAxis.setAxisMinimum(0f); // 0부터 시작
         leftAxis.setGranularity(1f);
+        leftAxis.setTextSize(12f); // 왼쪽 Y축 텍스트 크기 설정
 
         weeklyLineChart.getAxisRight().setEnabled(false); // 오른쪽 Y축 비활성화
         weeklyLineChart.setExtraRightOffset(15f); // 오른쪽 여백 추가
         weeklyLineChart.getDescription().setEnabled(false); // 설명 비활성화
         weeklyLineChart.invalidate();
     }
+
     private Map<String, Integer> fillMissingDates(Map<String, Integer> dailyData) {
         // 현재 날짜를 기준으로 7일치 데이터 생성
         Map<String, Integer> fullData = new LinkedHashMap<>();
